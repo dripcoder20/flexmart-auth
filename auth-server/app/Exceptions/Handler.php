@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -50,6 +51,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        $statusMappings = [
+            AuthenticationException::class => 401
+        ];
+
+        if (!array_key_exists(get_class($exception), $statusMappings)) {
+            return parent::render($request, $exception);
+        }
+
+        if ($request->isXmlHttpRequest() || $request->expectsJson()) {
+            return response()->json(['message' => $exception->getMessage()], $statusMappings[get_class($exception)]);
+        }
     }
 }
