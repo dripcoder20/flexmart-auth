@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 tags
 *.swp
+coverage.xml
+tests/coverage
