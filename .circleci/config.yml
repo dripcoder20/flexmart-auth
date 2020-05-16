@@ -37,16 +37,6 @@ jobs:
       - run:
           name: "Run PHP Unit Test"
           command: "./vendor/bin/phpunit"
-  # unit_test_and_coverage:
-  #   <<: *defaults
-    # steps:
-    #   - restore_cache:
-    # #       key: flexmart-auth-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-# workflows:
-  # version: 2
-  # test_unit:
-    # jobs:
-    #   - checkout_code
-    #   - unit_test_and_coverage:
-    #       requires:
-    #         - checkout_code
+      - run:
+          name: "Upload to codecov"
+          command: "bash <(curl -s https://codecov.io/bash)"
