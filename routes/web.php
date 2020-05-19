@@ -19,3 +19,12 @@ Route::get('/', function () {
 
 
 Route::post('auth/login', 'Api\AuthController@store');
+
+Route::get('signup', function () {
+	return view('signup');
+});
+
+Route::get('verify', function () {
+	// Temporary page
+	return 'Verify';
+});
