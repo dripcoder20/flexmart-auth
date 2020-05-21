@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\User;
 
+use App\LoginLog;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -88,5 +90,29 @@ class UserLoginTest extends TestCase
             ]
         )
             ->assertStatus(401);
+    }
+
+    /** @test */
+    public function it_logs_users_login()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->post('/api/login', [
+            'mobile_number' => $this->user->mobile_number,
+            'password' => '123456',
+            'device_name' => 'test_device'
+        ]);
+        $loggedIn = LoginLog::first();
+
+        $this->assertDatabaseHas('user_login_history', [
+            'user_id' => $this->user->id,
+            'ip_address' => '127.0.0.1',
+            'device_name' => 'test_device',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+
+        $this->assertEquals($this->user->mobile_number, $loggedIn->user->mobile_number);
+        $this->assertEquals('test_device', $loggedIn->device_name);
     }
 }

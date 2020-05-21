@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UserHasLoggedIn;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class AuthController extends Controller
 {
@@ -30,6 +32,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($request->only('mobile_number', 'password'))) {
             $user = auth()->user();
+            $ip_address = $request->header('x-forwarded-for') ?: $request->ip();
+            
+            event(new UserHasLoggedIn(
+                $user,
+                $request->only('device_name'),
+                $ip_address
+            ));
+
             return response()->json(
                 ['token' => $user->createToken($request->device_name)->plainTextToken]
             );
