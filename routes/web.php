@@ -14,17 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-  return view('welcome');
+    return view('welcome');
 });
 
 
 Route::post('auth/login', 'Api\AuthController@store');
 
+Route::get('auth/login', function () {
+    return 'Auth/Login';
+})->name('auth/login');
+
+
 Route::get('signup', function () {
-	return view('signup');
+    return view('signup');
 });
 
 Route::get('verify', function () {
-	// Temporary page
-	return 'Verify';
+    // Temporary page
+    return 'Verify';
 });
+

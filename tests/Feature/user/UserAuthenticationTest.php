@@ -4,6 +4,7 @@ namespace Tests\Feature\user;
 
 use App\User;
 use Tests\TestCase;
+
 class UserAuthenticationTest extends TestCase
 {
     /**
@@ -116,6 +117,4 @@ class UserAuthenticationTest extends TestCase
 
         $this->delete('/api/auth/logout')->assertStatus(202)->assertCookieMissing('xsrf-token');
     }
-
-
 }
