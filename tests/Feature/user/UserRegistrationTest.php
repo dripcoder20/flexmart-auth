@@ -33,8 +33,7 @@ class UserRegistrationTest extends TestCase
 	/**
 	 * @test
 	 */
-	public function should_redirect_to_verify_if_registration_sucessful( )
-	{
+	public function should_redirect_to_verify_if_registration_sucessful( ) {
 		$this->withoutExceptionHandling();
 		$request = [
 			'first_name' => 'John',

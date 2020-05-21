@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
-    public function show() {
+    public function show()
+    {
         return auth()->user();
     }
+
     /**
      * store
      *
@@ -26,14 +28,17 @@ class AuthController extends Controller
             'device_name' => 'required'
         ]);
 
-        if (Auth::attempt($request->only('mobile_number', 'password'))) {
-            $user = auth()->user();
-            return response()->json(
-                ['token' => $user->createToken($request->device_name)->plainTextToken]
-            );
-        }
+        try {
+            if (Auth::attempt($request->only('mobile_number', 'password'))) {
+                $user = auth()->user();
+                return response()->json(
+                    ['token' => $user->createToken($request->device_name)->plainTextToken]
+                );
+            }
+        } catch (Exception $e) {
 
-        throw new AuthenticationException("Invalid credentials provided");
+            throw new AuthenticationException("Invalid credentials provided");
+        }
     }
 
     public function destroy()
