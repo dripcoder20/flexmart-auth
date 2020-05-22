@@ -1,4 +1,6 @@
-<!-- Temporary sign up template -->
+@extends('layouts.master')
+
+@section('content')
 <form action="/api/register" method="POST">
     {!! csrf_field() !!}
     <div>
@@ -27,3 +29,4 @@
     </div>
     <input type="submit" value="signup">
 </form>
+@endsection
