@@ -28,17 +28,14 @@ class AuthController extends Controller
             'device_name' => 'required'
         ]);
 
-        try {
-            if (Auth::attempt($request->only('mobile_number', 'password'))) {
-                $user = auth()->user();
-                return response()->json(
-                    ['token' => $user->createToken($request->device_name)->plainTextToken]
-                );
-            }
-        } catch (Exception $e) {
-
-            throw new AuthenticationException("Invalid credentials provided");
+        if (Auth::attempt($request->only('mobile_number', 'password'))) {
+            $user = auth()->user();
+            return response()->json(
+                ['token' => $user->createToken($request->device_name)->plainTextToken]
+            );
         }
+
+        throw new AuthenticationException("Invalid credentials provided");
     }
 
     public function destroy()

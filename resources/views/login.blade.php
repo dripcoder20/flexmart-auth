@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-view login
+<login-form></login-form>
 @endsection

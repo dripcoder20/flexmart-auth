@@ -8,7 +8,13 @@
 </head>
 
 <body>
-    @yield('content')
+    <div id="app">
+        @yield('content')
+    </div>
+    <script src="/js/manifest.js"></script>
+    <script src="/js/vendor.js"></script>
+    <script src="/js/app.js"></script>
 </body>
+
 
 </html>

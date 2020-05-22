@@ -78,8 +78,6 @@ class UserLoginTest extends TestCase
      */
     public function it_will_return_error_if_user_provided_invalid_credentials()
     {
-        $this->withHeader('Content-Type', 'application/json');
-        $this->withHeader('X-Requested-With', 'XMLHttpRequest');
         $this->withHeader('Accept', 'application/json');
         $this->post(
             '/api/login',
@@ -89,6 +87,6 @@ class UserLoginTest extends TestCase
                 'device_name' => 'sample-device'
             ]
         )
-            ->assertStatus(422);
+            ->assertStatus(401);
     }
 }
