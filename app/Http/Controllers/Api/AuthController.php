@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
-    public function show() {
+    public function show()
+    {
         return auth()->user();
     }
+
     /**
      * store
      *

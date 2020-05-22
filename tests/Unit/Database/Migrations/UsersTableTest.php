@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit\Database\Migrations;
 
 use App\User;
 use Illuminate\Database\QueryException;
@@ -42,7 +42,8 @@ class UsersTableTest extends TestCase
             'status',
             'verified',
             'password',
-            ])->each(function ($column){
+        ])->each(
+            function ($column) {
                 $this->assertTrue(Schema::hasColumn('users', $column));
             }
         );

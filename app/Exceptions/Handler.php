@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
             return parent::render($request, $exception);
         }
 
-        if ($request->isXmlHttpRequest() || $request->expectsJson()) {
+        if ($request->expectsJson()) {
             return response()->json(['message' => $exception->getMessage()], $statusMappings[get_class($exception)]);
         }
 

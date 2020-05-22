@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::get('/auth/user', 'Api\AuthController@show');
+    Route::get('/me', 'Api\AuthController@show');
 
-    Route::delete('/auth/logout', 'Api\AuthController@destroy');
+    Route::delete('/logout', 'Api\AuthController@destroy');
 });
 
-Route::post('auth/login', 'Api\AuthController@store');
+Route::post('login', 'Api\AuthController@store');
 Route::post('register', 'RegistrationController@register');
+

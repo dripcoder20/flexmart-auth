@@ -13,24 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource("", "ProfileController")->except('create');
+    Route::delete("logout", 'AuthController@destroy');
+    Route::get("logout", 'AuthController@destroy');
 });
 
 
-Route::post('auth/login', 'Api\AuthController@store');
 
-Route::get('auth/login', function () {
-    return 'Auth/Login';
-})->name('auth/login');
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('login', 'AuthController@index')->name('login');
+    Route::post('login', 'AuthController@store');
 
+    Route::get('signup', function () {
+        return view('signup');
+    });
 
-Route::get('signup', function () {
-    return view('signup');
+    Route::get('verify', function () {
+        // Temporary page
+        return 'Verify';
+    });
 });
-
-Route::get('verify', function () {
-    // Temporary page
-    return 'Verify';
-});
-
