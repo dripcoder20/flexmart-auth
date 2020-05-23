@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Events\UserHasLoggedIn;
+use App\Events\UserHasRequestedVerification;
+use App\Events\UserResetPasswordHasSucceeded;
 use App\Listeners\RecordLoginHistory;
+use App\Listeners\SendMobileValidation;
+use App\Listeners\SendPasswordResetSuccessNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +26,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserHasLoggedIn::class => [
             RecordLoginHistory::class
+        ],
+        UserHasRequestedVerification::class => [
+            SendMobileValidation::class
+        ],
+        UserResetPasswordHasSucceeded::class => [
+            SendPasswordResetSuccessNotification::class
         ],
     ];
 

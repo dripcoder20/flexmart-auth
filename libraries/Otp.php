@@ -2,6 +2,8 @@
 
 namespace Libraries;
 
+use App\Events\UserHasRequestedVerification;
+use App\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -38,6 +40,11 @@ class Otp
         // TODO: Add Sms sending logic
         File::put("otp.txt", $msg);
         return $msg;
+    }
+
+    public function sendEmail(User $user)
+    {
+        return event(new UserHasRequestedVerification($user, $this->code));
     }
 
     public function isValid($code)

@@ -37,14 +37,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('signup', function () {
         session()->put('mobile:validation', 'unique:users,mobile_number');
         session()->put('redirect_after', config("app.url") . "/register");
-
-        return redirect('/mobile/validate');
-    });
-
-    Route::get('forgot', function () {
-        // Todo add test to validate session exists when forgot password is selected
-        session()->put('mobile:validation', 'exists:users,mobile_number');
-        session()->put('redirect_after', config("app.url") . "/reset-password");
+        session()->put('key_prefix', 'verified-');
 
         return redirect('/mobile/validate');
     });
@@ -52,4 +45,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('register', function () {
         return view('create-account');
     });
+
+    Route::get('forgot', 'PasswordResetController@index');
+    Route::get('reset-password', 'PasswordResetController@show');
 });

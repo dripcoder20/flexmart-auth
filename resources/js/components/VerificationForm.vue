@@ -82,10 +82,8 @@
             async verify() {
                 this.errorMessage = '';
                 await this.$axios.get('/sanctum/csrf-cookie')
-
                 this.form.post('/api/mobile/verify').then((response) => {
                     window.location.replace(response.redirect_after)
-                    // window.location.replace('/register)
                 }).catch((error)=> {
                     this.errorMessage = error.message
                 })

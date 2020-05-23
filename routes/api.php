@@ -25,3 +25,4 @@ Route::post('mobile/validate', 'Api\MobileValidationController@store');
 Route::post('mobile/verify', 'Api\MobileVerificationController@store');
 Route::post('register', 'Api\RegistrationController@store');
 Route::post('resend-verification', 'Api\MobileVerificationController@update');
+Route::post('reset-password', 'Api\PasswordResetController@update');

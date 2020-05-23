@@ -15,6 +15,14 @@ Vue.component(
     'verification-form',
     require('./components/VerificationForm').default
 )
+Vue.component(
+    'password-reset-form',
+    require('./components/PasswordResetForm').default
+)
+Vue.component(
+    'notification-alert',
+    require('./components/NotificationAlert').default
+)
 Vue.component('registration-form', require('./components/RegisterForm').default)
 const app = new Vue({
     el: '#app'

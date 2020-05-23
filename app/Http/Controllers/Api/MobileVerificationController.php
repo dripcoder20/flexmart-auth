@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Libraries\Otp;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -31,7 +33,8 @@ class MobileVerificationController extends Controller
         ]);
 
         $token = Hash::make($key);
-        $mobile = explode('-', $key)[1];
+        $mobile = Str::afterLast($key, '-');
+
         Cache::put($token, $mobile, self::EXPIRATION);
 
         return response()->json([
@@ -45,12 +48,17 @@ class MobileVerificationController extends Controller
     {
         $key = Crypt::decrypt(request('token'));
         $otp = new Otp(Cache::get($key));
-        $mobile = explode('-', $key)[1];
+        $mobile = Str::afterLast($key, '-');
 
         $otp->send($mobile, function ($code) {
             // Temporary message
             return "Good day, please use $code as your verification code. Thank you";
         });
+
+        if (session()->has('forgot')) {
+            $user = User::where('mobile_number', $mobile)->first();
+            ($user->email) ? $otp->sendEmail($user) : '';
+        }
 
         return response()->json([
             'message' => "Code was sent."
