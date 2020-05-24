@@ -24,3 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('auth/login', 'Api\AuthController@store');
 Route::post('register', 'RegistrationController@register');
+
+Route::post('verify/resend', 'VerificationController@resend');

@@ -3,7 +3,8 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Tests\TestCase;
 
 class UserRegistrationTest extends TestCase
@@ -32,7 +33,7 @@ class UserRegistrationTest extends TestCase
 	/**
 	 * @test
 	 */
-	public function should_redirect_to_verify_if_registration_sucessful( )
+	public function should_redirect_to_verify_if_registration_successful( )
 	{
 		$this->withoutExceptionHandling();
 		$request = [
@@ -42,9 +43,9 @@ class UserRegistrationTest extends TestCase
 			'password'   => 'johndoe123'
 		];
 
-		$this->post('api/register', $request)
-		     ->assertStatus(302)
-		     ->assertHeader('location', config('app.url') . '/verify');
+		$result = $this->post('api/register', $request)
+		               ->assertRedirect();
+		$this->assertStringContainsString('/verify', $result->headers->get('location'));
 
 		$user = User::first();
 		$this->assertEquals($user->first_name, $request['first_name']);
@@ -64,10 +65,6 @@ class UserRegistrationTest extends TestCase
 
 		$this->postJson('api/register', $request)
 		     ->assertStatus(422)
-		     ->assertJson([
-		     	'errors' => [
-		     		"mobile_number" => []
-		        ]
-		     ]);
+		     ->assertJson(['errors' => [ "mobile_number" => [] ]]);
 	}
 }
