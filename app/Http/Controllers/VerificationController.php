@@ -9,8 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 
-class VerificationController extends Controller
-{
+class VerificationController extends Controller {
 	/**
 	 * @var Otp
 	 */
@@ -24,46 +23,65 @@ class VerificationController extends Controller
 	 */
 	private $request;
 
-	public function __construct(Request $request)
-	{
-		$this->request = $request;
-		$this->user = $this->getUser();
-		$this->otpService = new Otp(Cache::get($this->user->mobile_number));
+	public function __construct( Request $request ) {
+		$this->request    = $request;
+		$this->user       = $this->getUser();
+		$this->otpService = new Otp( Cache::get( $this->user->mobile_number ) );
 	}
 
-	public function resend()
-    {
-		$this->otpService->send($this->user->mobile_number, function ($code) {
+	public function verify() {
+		$this->request->validate( [
+			'code' => function ( $attribute, $value, $fail ) {
+				if ( ! $this->otpService->isValid( $value ) ) {
+					$fail( "Verification code was expired or invalid. Please login or resend verification code" );
+				}
+			}
+		] );
+
+		$this->user->verified = true;
+		$this->user->save();
+
+		return response()->json( [
+			'message' => 'Verification was successful.'
+		], Response::HTTP_ACCEPTED );
+	}
+
+	public function resend() {
+		$this->otpService->send( $this->user->mobile_number, function ( $code ) {
 			// Temporary message
 			return "Good day, please use $code as your verification code. Thank you";
-		});
+		} );
 
-		return response()->json([
+		return response()->json( [
 			'message' => "Verification was sent."
-		], Response::HTTP_ACCEPTED);
-    }
+		], Response::HTTP_ACCEPTED );
+	}
 
-	private function getUser()
-	{
-		if ($user = auth()->user()) return $user;
+	private function getUser() {
+		if ( $user = auth()->user() ) {
+			return $user;
+		}
 
-		$user = User::where('mobile_number', Crypt::decrypt($this->request->input("secure")))
+		$user = User::where( 'mobile_number', Crypt::decrypt( $this->request->input( "secure" ) ) )
 		            ->first();
 
-		$this->validatePublicUser($user);
+		$this->validatePublicUser( $user );
 
 		return $user;
 	}
 
 	private function validatePublicUser( $user ) {
 		$this->request->validate( [
-			'secure' => function ( $attribute, $value, $fail ) use ($user) {
-				if (!$user) $fail( "User was not valid or link was invalid. Please login your account" );
+			'secure'   => function ( $attribute, $value, $fail ) use ( $user ) {
+				if ( ! $user ) {
+					$fail( "User was not valid or link was invalid. Please login your account" );
+				}
 			},
-			'identity' => function ($attribute, $value, $fail) use ($user) {
-				if (Cache::get(optional($user)->mobile_number) !== Crypt::decrypt($value))
-					$fail("Verification link is expired or invalid. Please login your account");
+			'identity' => function ( $attribute, $value, $fail ) use ( $user ) {
+				if ( Cache::get( optional( $user )->mobile_number ) !== Crypt::decrypt( $value ) ) {
+					$fail( "Verification link is expired or invalid. Please login your account" );
+				}
 			}
-		]);
+		] );
 	}
 }
