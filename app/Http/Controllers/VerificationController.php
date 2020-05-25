@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Otp;
+use Libraries\Otp;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -29,7 +29,7 @@ class VerificationController extends Controller {
 		$this->otpService = new Otp( Cache::get( $this->user->mobile_number ) );
 	}
 
-	public function verify() {
+	public function store() {
 		$this->request->validate( [
 			'code' => function ( $attribute, $value, $fail ) {
 				if ( ! $this->otpService->isValid( $value ) ) {
@@ -62,7 +62,7 @@ class VerificationController extends Controller {
 			return $user;
 		}
 
-		$user = User::where( 'mobile_number', Crypt::decrypt( $this->request->input( "secure" ) ) )
+		$user = User::where( 'mobile_number', Crypt::decrypt( $this->request->input( "token" ) ) )
 		            ->first();
 
 		$this->validatePublicUser( $user );
@@ -72,12 +72,12 @@ class VerificationController extends Controller {
 
 	private function validatePublicUser( $user ) {
 		$this->request->validate( [
-			'secure'   => function ( $attribute, $value, $fail ) use ( $user ) {
+			'token'   => function ( $attribute, $value, $fail ) use ( $user ) {
 				if ( ! $user ) {
 					$fail( "User was not valid or link was invalid. Please login your account" );
 				}
 			},
-			'identity' => function ( $attribute, $value, $fail ) use ( $user ) {
+			'secret' => function ( $attribute, $value, $fail ) use ( $user ) {
 				if ( Cache::get( optional( $user )->mobile_number ) !== Crypt::decrypt( $value ) ) {
 					$fail( "Verification link is expired or invalid. Please login your account" );
 				}

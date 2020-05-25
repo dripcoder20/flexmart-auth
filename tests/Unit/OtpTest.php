@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Otp;
 use Illuminate\Support\Facades\Cache;
+use Libraries\Otp;
 use Tests\TestCase;
 
 class OtpTest extends TestCase

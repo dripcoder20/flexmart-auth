@@ -1,13 +1,14 @@
 <?php
 
-namespace App;
+namespace Libraries;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class Otp {
 	private const PREFIX = "otp-";
-	private const TTL = 5;
+	private const EXP = 5;
 	private $identifier;
 	private $code;
 
@@ -22,7 +23,7 @@ class Otp {
 		}
 
 		$code = rand( 111111, 99999 );
-		Cache::put( $this->identifier, $code, self::TTL );
+		Cache::put( $this->identifier, $code, self::EXP );
 
 		return $code;
 	}
@@ -31,6 +32,7 @@ class Otp {
 		$msg = call_user_func( $message, $this->code );
 
 		// TODO: Add Sms sending logic
+		File::put("otp.txt", $msg);
 		return $msg;
 	}
 
@@ -39,6 +41,6 @@ class Otp {
 	}
 
 	public function getIdentifier() {
-		return substr_replace( $this->identifier, '', 0, 4 );
+		return Str::of($this->identifier)->substr(4);
 	}
 }

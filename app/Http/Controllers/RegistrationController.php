@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Otp;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Redirect;
+use Libraries\Otp;
 
 class RegistrationController extends Controller
 {
@@ -20,7 +19,7 @@ class RegistrationController extends Controller
 		$this->otpService = $otpService;
 	}
 
-	public function register(Request $request) {
+	public function store(Request $request) {
 		$this->validateRequest($request);
 
 		$userCredentials = $request->all();
@@ -28,24 +27,20 @@ class RegistrationController extends Controller
 
 		User::create($userCredentials);
 
-		$this->otpService->send($userCredentials['mobile_number'], function ($code) {
-			// Temporary message
-			return "Good day, please use $code as your verification code. Thank you";
-		});
-
-		Cache::put($userCredentials['mobile_number'], $this->otpService->getIdentifier(),
-			self::IDENTITY_VALIDITY);
+		List($token, $secret) = $this->handleOtp($userCredentials['mobile_number']);
 
 		if ($request->wantsJson()) {
 			return response()->json( [
-				'message' => 'User was successfully created'
+				'message' => 'User was successfully created',
+				'token'    => $token,
+				'secret'   => $secret
 			], Response::HTTP_CREATED );
 		}
 
-		return Redirect::to('/verify?'. http_build_query([
-				'identity' => Crypt::encrypt($this->otpService->getIdentifier()),
-				'secure'   => Crypt::encrypt($userCredentials['mobile_number'])
-			]));
+		return redirect('/verify?'. http_build_query([
+			'token'    => $token,
+			'secret'   => $secret
+		]));
 	}
 
 	private function validateRequest(Request $request) {
@@ -56,5 +51,17 @@ class RegistrationController extends Controller
 			// We'll use a simple password for now
 			'password'      => 'required'
 		]);
+	}
+
+	private function handleOtp( $mobileNumber ) {
+
+		$this->otpService->send($mobileNumber, function ($code) {
+			// Temporary message
+			return "Good day, please use $code as your verification code. Thank you";
+		});
+
+		Cache::put($mobileNumber, $this->otpService->getIdentifier(), self::IDENTITY_VALIDITY);
+
+		return [Crypt::encrypt($mobileNumber), Crypt::encrypt($this->otpService->getIdentifier())];
 	}
 }

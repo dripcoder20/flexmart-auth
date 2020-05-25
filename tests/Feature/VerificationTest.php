@@ -60,8 +60,8 @@ class VerificationTest extends TestCase
 		Cache::put($user->mobile_number, $identifier, 5);
 
 		$request = [
-			'identity'  => Crypt::encrypt($identifier),
-			'secure'    => Crypt::encrypt($user->mobile_number)
+			'secret'  => Crypt::encrypt($identifier),
+			'token'    => Crypt::encrypt($user->mobile_number)
 		];
 
 		$this->post('api/verify', $request)
@@ -91,8 +91,8 @@ class VerificationTest extends TestCase
 		Cache::put($user->mobile_number, $identifier, 5);
 
 		$request = [
-			'identity'  => Crypt::encrypt($identifier),
-			'secure'    => Crypt::encrypt($user->mobile_number)
+			'secret'  => Crypt::encrypt($identifier),
+			'token'    => Crypt::encrypt($user->mobile_number)
 		];
 
 		$this->post('api/verify/resend', $request)
@@ -105,15 +105,15 @@ class VerificationTest extends TestCase
 	public function should_return_error_if_verification_credential_was_invalid( )
 	{
 		$request = [
-			'identity'  => Crypt::encrypt('identity'),
-			'secure'    => Crypt::encrypt('secure')
+			'secret'  => Crypt::encrypt('identity'),
+			'token'    => Crypt::encrypt('secure')
 		];
 
 		$this->postJson('api/verify/resend', $request)
 			->assertStatus(422)
 			->assertJson(['errors' => [
-				'identity'  => [],
-				'secure'    => []]
+				'secret'  => [],
+				'token'    => []]
 			]);
 	}
 }
