@@ -1,0 +1,20 @@
+.button {
+    height: 34px;
+    width: 120px;
+    box-shadow: 1px 1px 1px 0 #00000021;
+    border-radius: 5px;
+    @apply tw-inline-flex tw-items-center tw-justify-center tw-mb-4;
+    &:focus {
+        outline: none;
+    }
+
+    &--primary {
+        @apply tw-bg-accent tw-text-white;
+    }
+
+
+    &--outline {
+        border: 2px solid black;
+        color: black;
+    }
+}

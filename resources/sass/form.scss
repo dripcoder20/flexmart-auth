@@ -1,0 +1,25 @@
+.form-group {
+    @apply tw-flex tw-flex-col tw-mb-4;
+
+    .message {
+        @apply tw-text-sm;
+        &.danger {
+            @apply tw-text-danger;
+        }
+    }
+}
+
+label {
+    @apply tw-px-6;
+}
+input.form-control {
+    border-radius: 5px;
+    border: #efefef solid 1px;
+    width: 278px;
+    height: 45px;
+    box-shadow: 1px 1px 1px 0 #00000021;
+    @apply tw-mb-1 tw-px-6;
+    &:focus {
+        outline: none;
+    }
+}
