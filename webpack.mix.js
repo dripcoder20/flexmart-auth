@@ -10,7 +10,7 @@ const mix = require('laravel-mix')
  | file for the application as well as bundling up all the JS files.
  |
  */
-
+require('laravel-mix-tailwind')
 // config eslint
 mix.webpackConfig({
     module: {
@@ -26,5 +26,7 @@ mix.webpackConfig({
 })
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .tailwind()
     .sourceMaps()
+    .version()
     .extract(['vue', 'axios'])

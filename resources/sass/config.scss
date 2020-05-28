@@ -1,0 +1,15 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: auto;
+    max-width: 375px;
+    background: black;
+}
+
+#app {
+    background: white;
+    min-height: 100vh;
+    body.auth & {
+        @apply tw-bg-brand;
+    }
+}
+
