@@ -13,16 +13,14 @@
             class="tw-flex tw-flex-col tw-px-12 tw-items-center"
         >
             <div class="form-group">
-                <input
-                    v-model="form.mobile_number"
-                    type="text"
-                    name="mobile_number"
-                    class="form-control"
-                    placeholder="Mobile number"
-                />
-                <span class="message">
-                    {{ form.errors.get('mobile_number') }}
-                </span>
+                <mobile-number-input
+                    prefix="+63"
+                    :value="form.mobile_number.replace('+63', '')"
+                    @input-mobile="form.mobile_number = $event"
+                ></mobile-number-input>
+                <span class="message">{{
+                    form.errors.get('mobile_number')
+                }}</span>
             </div>
 
             <div class="form-group">
