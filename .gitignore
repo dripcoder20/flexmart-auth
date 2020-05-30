@@ -17,3 +17,4 @@ tags
 *.swp
 coverage.xml
 tests/coverage
+otp.txt

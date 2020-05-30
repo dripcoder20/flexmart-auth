@@ -6,6 +6,15 @@ Vue.component(
     'mobile-number-input',
     require('./components/MobileNumber.vue').default
 )
+Vue.component(
+    'mobile-validation-form',
+    require('./components/MobileValidationForm').default
+)
+Vue.component(
+    'verification-form',
+    require('./components/VerificationForm').default
+)
+Vue.component('registration-form', require('./components/RegisterForm').default)
 const app = new Vue({
     el: '#app'
 })
