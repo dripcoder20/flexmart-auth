@@ -52,4 +52,14 @@ class UserProfileTest extends TestCase
         $this->withHeader("Authorization", "Bearer " . $token);
         $this->get('/api/me')->assertStatus(200)->assertSee($this->user->first_name);
     }
+
+	/**
+	 * @test
+	 */
+	public function it_should_get_created_user_on_update_account()
+    {
+    	$this->get('update-profile')
+	         ->assertSee($this->user->first_name)
+	         ->assertSee($this->user->mobile_number);
+    }
 }

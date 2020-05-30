@@ -3,22 +3,24 @@
 namespace Tests\Feature\User;
 
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class UserRegistrationTest extends TestCase
 {
-    use RefreshDatabase;
     /**
      * @test
      */
     public function should_register_if_credential_was_valid()
     {
-        $this->withoutExceptionHandling();
+    	$this->withoutExceptionHandling();
+    	$token = Hash::make('hash');
+    	Cache::put($token, '09090909090', 5);
         $request = [
             'first_name' => 'John',
             'last_name'  => 'Doe',
-            'mobile_number' => '09090909090',
+            'confirmation_token' => $token,
             'password'   => 'johndoe123'
         ];
 
@@ -28,29 +30,9 @@ class UserRegistrationTest extends TestCase
 
         $this->assertEquals($user->first_name, $request['first_name']);
         $this->assertEquals($user->last_name, $request['last_name']);
+        $this->assertEquals($user->mobile_number, '09090909090');
     }
 
-    /**
-     * @test
-     */
-    public function should_redirect_to_verify_if_registration_sucessful()
-    {
-        $this->withoutExceptionHandling();
-        $request = [
-            'first_name' => 'John',
-            'last_name'  => 'Doe',
-            'mobile_number' => '09090909090',
-            'password'   => 'johndoe123'
-        ];
-
-        $this->post('api/register', $request)
-            ->assertStatus(302)
-            ->assertHeader('location', config('app.url') . '/verify');
-
-        $user = User::first();
-        $this->assertEquals($user->first_name, $request['first_name']);
-        $this->assertEquals($user->last_name, $request['last_name']);
-    }
 
     /**
      * @test
@@ -60,14 +42,15 @@ class UserRegistrationTest extends TestCase
         $request = [
             'first_name' => 'John',
             'last_name'  => 'Doe',
-            'password'   => 'johndoe123'
+            'password'   => 'johndoe123',
+	        'confirmation_token' => 'token'
         ];
 
         $this->postJson('api/register', $request)
             ->assertStatus(422)
             ->assertJson([
                 'errors' => [
-                    "mobile_number" => []
+                    "confirmation_token" => []
                 ]
             ]);
     }
