@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth:sanctum')->group(function () {
-
     Route::get('/me', 'Api\AuthController@show');
 
     Route::delete('/logout', 'Api\AuthController@destroy');

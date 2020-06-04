@@ -1,11 +1,10 @@
 <template>
     <div class="tw-flex tw-flex-col">
-        <div class="logo-wrapper">
-            <h1 class="tw-text-accent tw-font-bold">Flex Account</h1>
-            <p class="tw-text-white tw-text-center">
-                GROCERY AT YOUR
-                <br />DOOR STEPS
-            </p>
+        <logo></logo>
+        <div>
+            <h1 class="tw-text-center tw-font-bold tw-text-lg tw-mb-8">
+                Login
+            </h1>
         </div>
         <form
             @keydown="form.errors.clear($event.target.name)"
@@ -18,9 +17,9 @@
                     :value="form.mobile_number.replace('+63', '')"
                     @input-mobile="form.mobile_number = $event"
                 ></mobile-number-input>
-                <span class="message">{{
-                    form.errors.get('mobile_number')
-                }}</span>
+                <span class="message">
+                    {{ form.errors.get('mobile_number') }}
+                </span>
             </div>
 
             <div class="form-group">
@@ -34,9 +33,7 @@
                 <span class="message">{{ form.errors.get('password') }}</span>
             </div>
             <div class="tw-flex tw-w-full tw-items-center tw-justify-between">
-                <a
-                    href="/forgot"
-                    class="forgot-password tw-text-white tw-text-sm tw-mb-4"
+                <a href="/forgot" class="forgot-password tw-text-white tw-mb-4"
                     >Forgot password</a
                 >
                 <button class="button button--primary">Login</button>
@@ -91,17 +88,7 @@
     }
 </script>
 <style lang="scss" scoped>
-    body {
-        @apply tw-bg-brand;
-    }
-    .logo-wrapper {
-        margin-top: 135px;
-        @apply tw-flex tw-flex-col tw-items-center tw-mb-8 tw-bg-brand;
-        h1 {
-            @apply tw-text-2xl;
-        }
-    }
     form {
-        min-height: calc(100vh - 421px);
+        min-height: calc(100vh - 492px);
     }
 </style>

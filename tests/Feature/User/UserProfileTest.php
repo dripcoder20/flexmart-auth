@@ -35,7 +35,6 @@ class UserProfileTest extends TestCase
      */
     public function it_can_get_user_data_via_api_token()
     {
-
         $response = $this->post(
             '/api/login',
             [
@@ -53,13 +52,13 @@ class UserProfileTest extends TestCase
         $this->get('/api/me')->assertStatus(200)->assertSee($this->user->first_name);
     }
 
-	/**
-	 * @test
-	 */
-	public function it_should_get_created_user_on_update_account()
+    /**
+     * @test
+     */
+    public function it_should_get_created_user_on_update_account()
     {
-    	$this->get('update-profile')
-	         ->assertSee($this->user->first_name)
-	         ->assertSee($this->user->mobile_number);
+        $this->get('update-profile')
+             ->assertSee($this->user->first_name)
+             ->assertSee($this->user->mobile_number);
     }
 }

@@ -14,9 +14,9 @@ class UserRegistrationTest extends TestCase
      */
     public function should_register_if_credential_was_valid()
     {
-    	$this->withoutExceptionHandling();
-    	$token = Hash::make('hash');
-    	Cache::put($token, '09090909090', 5);
+        $this->withoutExceptionHandling();
+        $token = Hash::make('hash');
+        Cache::put($token, '09090909090', 5);
         $request = [
             'first_name' => 'John',
             'last_name'  => 'Doe',
@@ -43,7 +43,7 @@ class UserRegistrationTest extends TestCase
             'first_name' => 'John',
             'last_name'  => 'Doe',
             'password'   => 'johndoe123',
-	        'confirmation_token' => 'token'
+            'confirmation_token' => 'token'
         ];
 
         $this->postJson('api/register', $request)

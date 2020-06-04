@@ -26,8 +26,12 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('login', 'AuthController@index')->name('login');
     Route::post('login', 'AuthController@store');
-    Route::get('signup', function () { return view('signup'); });
-	Route::get('verify', 'MobileVerificationController@index');
-	Route::get('register', function () { return view('create-account'); });
-	Route::get('update-profile', 'ProfileController@update');
+    Route::get('signup', function () {
+        return view('signup');
+    });
+    Route::get('verify', 'MobileVerificationController@index');
+    Route::get('register', function () {
+        return view('create-account');
+    });
+    Route::get('update-profile', 'ProfileController@update');
 });

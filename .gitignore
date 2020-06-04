@@ -18,3 +18,4 @@ tags
 coverage.xml
 tests/coverage
 otp.txt
+.php_cs.cache

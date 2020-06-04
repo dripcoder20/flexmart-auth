@@ -1,11 +1,10 @@
 <template>
     <div class="tw-flex tw-flex-col">
-        <div class="logo-wrapper">
-            <h1 class="tw-text-accent tw-font-bold">Flex Account</h1>
-            <p class="tw-text-white tw-text-center">
-                GROCERY AT YOUR
-                <br />DOOR STEPS
-            </p>
+        <logo></logo>
+        <div>
+            <h1 class="tw-text-center tw-font-bold tw-text-lg tw-mb-8">
+                Enter mobile number
+            </h1>
         </div>
         <form
             @keydown="form.errors.clear($event.target.name)"
@@ -18,19 +17,19 @@
                     :value="form.mobile_number.replace('+63', '')"
                     @input-mobile="form.mobile_number = $event"
                 ></mobile-number-input>
-                <span class="message">{{
-                    form.errors.get('mobile_number')
-                }}</span>
+                <span class="message">
+                    {{ form.errors.get('mobile_number') }}
+                </span>
             </div>
-            <div class="tw-flex tw-w-full tw-items-center tw-justify-between">
-                <button class="button button--primary">Verify</button>
+            <div class="tw-flex tw-w-full tw-items-center tw-justify-center">
+                <button class="button button--primary">Next</button>
             </div>
             <div v-show="errorMessage">{{ errorMessage }}</div>
         </form>
         <div
-            class="signup-footer tw-text-center tw-pt-10 tw-px-10 tw-pb-4 tw-bg-accent"
+            class="signup-footer tw-text-center tw-pt-4 tw-px-4 tw-pb-4 tw-bg-white"
         >
-            <a href="/login" class="button button--outline">Login Now</a>
+            <a href="/login">Have an existing account? Click here</a>
         </div>
     </div>
 </template>
@@ -53,7 +52,7 @@
                 await this.$axios.get('/sanctum/csrf-cookie')
 
                 this.form.post('/api/validate').then((response) => {
-                    window.location.replace('/verify?token=' + response.token)
+                    window.location.href = '/verify?token=' + response.token
                 }).catch((error)=> {
                     this.errorMessage = error.message
                 })
@@ -65,9 +64,6 @@
     }
 </script>
 <style lang="scss" scoped>
-    body {
-        @apply tw-bg-brand;
-    }
     .logo-wrapper {
         margin-top: 135px;
         @apply tw-flex tw-flex-col tw-items-center tw-mb-8 tw-bg-brand;
@@ -76,6 +72,6 @@
         }
     }
     form {
-        min-height: calc(100vh - 421px);
+        min-height: calc(100vh - 378px);
     }
 </style>

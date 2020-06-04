@@ -1,12 +1,15 @@
 <template>
     <div class="tw-flex tw-flex-col">
-        <div class="logo-wrapper">
-            <h1 class="tw-text-accent tw-font-bold">Flex Account</h1>
-            <p class="tw-text-white tw-text-center">
-                GROCERY AT YOUR
-                <br />DOOR STEPS
+        <logo></logo>
+        <div>
+            <h1 class="tw-text-center tw-font-bold tw-text-lg tw-mb-2">
+                Enter One Time Code
+            </h1>
+            <p class="tw-text-white tw-text-center tw-px-12 tw-mb-4">
+                We sent your verification code to
+                <br />
+                {{ mobile }}
             </p>
-            <p>{{mobile}}</p>
         </div>
         <form
             @keydown="form.errors.clear($event.target.name)"
@@ -17,28 +20,31 @@
                 <input
                     v-model="form.code"
                     type="text"
-                    placeholder="Code"
+                    placeholder="Enter one time password"
                     name="otp"
                     class="form-control"
                     maxlength="6"
                 />
                 <span class="message">{{ form.errors.get('code') }}</span>
             </div>
-            <div class="tw-flex tw-w-full tw-items-center tw-justify-between">
+            <div class="tw-flex tw-w-full tw-items-center tw-justify-center">
+                <button class="button button--primary">Verify</button>
+            </div>
+            <div class="tw-text-white tw-text-center">
+                Did not received the code?
                 <a
                     href="javascript:"
                     @click="resend()"
-                    class="forgot-password tw-text-white tw-text-sm tw-mb-4"
+                    class="tw-block tw-text-white tw-text-accent tw-mb-4"
                     >Resend code</a
                 >
-                <button class="button button--primary">Confirm</button>
             </div>
             <div v-show="errorMessage">{{ errorMessage }}</div>
         </form>
         <div
-            class="signup-footer tw-text-center tw-pt-10 tw-px-10 tw-pb-4 tw-bg-accent"
+            class="signup-footer tw-text-center tw-pt-4 tw-px-4 tw-pb-4 tw-bg-white"
         >
-            <a href="/login" class="button button--outline">Login Now</a>
+            <a href="/login">Have an existing account? Click here</a>
         </div>
     </div>
 </template>
@@ -83,9 +89,6 @@
     }
 </script>
 <style lang="scss" scoped>
-    body {
-        @apply tw-bg-brand;
-    }
     .logo-wrapper {
         margin-top: 135px;
         @apply tw-flex tw-flex-col tw-items-center tw-mb-8 tw-bg-brand;
@@ -94,6 +97,6 @@
         }
     }
     form {
-        min-height: calc(100vh - 421px);
+        min-height: calc(100vh - 418px);
     }
 </style>

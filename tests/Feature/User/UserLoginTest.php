@@ -5,8 +5,6 @@ namespace Tests\Feature\User;
 use App\LoginLog;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserLoginTest extends TestCase
@@ -39,7 +37,6 @@ class UserLoginTest extends TestCase
      */
     public function it_should_redirect_to_login_if_user_is_unauthenticated()
     {
-
         $this->get('/')->assertRedirect('/login');
     }
 
@@ -58,7 +55,6 @@ class UserLoginTest extends TestCase
      * */
     public function a_user_can_retrieve_a_sanctum_cookie()
     {
-
         $this->get('/sanctum/csrf-cookie')->assertCookie("XSRF-TOKEN");
     }
 

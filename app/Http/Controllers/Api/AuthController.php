@@ -7,11 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class AuthController extends Controller
 {
-
     public function show()
     {
         return auth()->user();
