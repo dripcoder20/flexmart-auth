@@ -1,6 +1,7 @@
 require('./bootstrap')
 import Vue from 'vue'
 
+Vue.component('logo', require('./components/Logo.vue').default)
 Vue.component('login-form', require('./components/LoginForm.vue').default)
 Vue.component(
     'mobile-number-input',

@@ -3,11 +3,9 @@
 namespace Tests\Unit\App;
 
 use App\Exceptions\Handler;
-use App\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Tests\TestCase;
 
 class ExceptionHandlerTest extends TestCase

@@ -4,7 +4,6 @@ namespace App\Listeners;
 
 use App\Events\UserHasLoggedIn;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class RecordLoginHistory implements ShouldQueue
 {

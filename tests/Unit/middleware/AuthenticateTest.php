@@ -2,15 +2,11 @@
 
 namespace Tests\Unit\middleware;
 
-use App\Http\Middleware\Authenticate;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 class AuthenticateTest extends TestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();

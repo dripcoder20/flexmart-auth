@@ -1,6 +1,8 @@
 @extends('layouts.master', ['bodyClass' => 'auth'])
 
 @section('content')
+<div class="tw-fixed">
     Code: {{$code?:'expired'}}
-    <verification-form token="{{request('token')}}" mobile="{{$mobile}}"></verification-form>
+</div>
+<verification-form token="{{request('token')}}" mobile="{{$mobile}}"></verification-form>
 @endsection

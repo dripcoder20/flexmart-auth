@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
             AuthenticationException::class => 401
         ];
 
-        if (!array_key_exists(get_class($exception), $statusMappings)) {
+        if (! array_key_exists(get_class($exception), $statusMappings)) {
             return parent::render($request, $exception);
         }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -12,8 +11,8 @@ class ProfileController extends Controller
         return view('profile');
     }
 
-	public function update( )
+    public function update()
     {
-    	return User::latest()->first();
+        return User::latest()->first();
     }
 }

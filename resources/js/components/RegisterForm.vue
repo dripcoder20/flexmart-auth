@@ -1,11 +1,10 @@
 <template>
     <div class="tw-flex tw-flex-col">
-        <div class="logo-wrapper">
-            <h1 class="tw-text-accent tw-font-bold">Flex Account</h1>
-            <p class="tw-text-white tw-text-center">
-                GROCERY AT YOUR
-                <br />DOOR STEPS
-            </p>
+        <logo></logo>
+        <div>
+            <h1 class="tw-text-center tw-font-bold tw-text-lg tw-mb-8">
+                Complete your Profile
+            </h1>
         </div>
         <form
             @keydown="form.errors.clear($event.target.name)"
@@ -13,44 +12,50 @@
             class="tw-flex tw-flex-col tw-px-12 tw-items-center"
         >
             <div class="form-group">
+                <label>First Name</label>
                 <input
                     v-model="form.first_name"
                     type="text"
-                    placeholder="First Name"
+                    placeholder="Your awesome first name"
                     name="firstname"
                     class="form-control"
                 />
                 <span class="message">{{ form.errors.get('first_name') }}</span>
             </div>
             <div class="form-group">
+                <label>Last Name</label>
                 <input
                     v-model="form.last_name"
                     type="text"
-                    placeholder="Last Name"
+                    placeholder="Your awesome last name"
                     name="lastname"
                     class="form-control"
                 />
                 <span class="message">{{ form.errors.get('last_name') }}</span>
             </div>
             <div class="form-group">
+                <label>Password</label>
                 <input
                     v-model="form.password"
                     type="password"
-                    placeholder="Password"
+                    placeholder="Your secure password"
                     name="password"
                     class="form-control"
                 />
                 <span class="message">{{ form.errors.get('password') }}</span>
             </div>
-            <div class="tw-flex tw-w-full tw-items-center tw-justify-between">
+            <p class="tw-text-white tw-text-center tw-mb-4">
+                By registering you agree with our terms and conditions
+            </p>
+            <div class="tw-flex tw-w-full tw-items-center tw-justify-center">
                 <button class="button button--primary">Register</button>
             </div>
             <div v-show="errorMessage">{{ errorMessage }}</div>
         </form>
         <div
-            class="signup-footer tw-text-center tw-pt-10 tw-px-10 tw-pb-4 tw-bg-accent"
+            class="signup-footer tw-text-center tw-pt-4 tw-px-4 tw-pb-4 tw-bg-white"
         >
-            <a href="/login" class="button button--outline">Login Now</a>
+            <a href="/login">Have an existing account? Click here</a>
         </div>
     </div>
 </template>
@@ -100,6 +105,6 @@
         }
     }
     form {
-        min-height: calc(100vh - 421px);
+        min-height: calc(100vh - 378px);
     }
 </style>
