@@ -23,7 +23,6 @@
                     placeholder="Enter one time password"
                     name="otp"
                     class="form-control"
-                    maxlength="6"
                 />
                 <span class="message">{{ form.errors.get('code') }}</span>
             </div>
@@ -31,13 +30,18 @@
                 <button class="button button--primary">Verify</button>
             </div>
             <div class="tw-text-white tw-text-center">
-                Did not received the code?
-                <a
-                    href="javascript:"
-                    @click="resend()"
-                    class="tw-block tw-text-white tw-text-accent tw-mb-4"
-                    >Resend code</a
-                >
+                <div v-if="resend_timeout">
+                    Resend in {{ resend_timeout }} seconds
+                </div>
+                <div v-else>
+                    Did not received the code?
+                    <a
+                        href="javascript:"
+                        @click="resend()"
+                        class="tw-block tw-text-white tw-text-accent tw-mb-4"
+                        >Resend code</a
+                    >
+                </div>
             </div>
             <div v-show="errorMessage">{{ errorMessage }}</div>
         </form>
@@ -59,12 +63,20 @@
                     code: '',
                     token: ''
                 }),
-                errorMessage: ''
+                errorMessage: '',
+                resend_timeout: 30
             }
         },
         props: [ 'token', 'mobile' ],
         created() {
             this.form.token = this.token;
+            this.initResendChecker()
+        },
+        watch: {
+            'form.code'(value) {
+                if (!/^\d{1,6}$/.test(value))
+                    this.form.code = value.slice(0, -1) // accept number up to 6 digits
+            }
         },
         methods: {
             async verify() {
@@ -84,6 +96,15 @@
                 this.form.post('/api/resend-verification').catch((error)=> {
                     this.errorMessage = error.message
                 })
+                this.resend_timeout = 30
+                this.initResendChecker();
+            },
+            initResendChecker() {
+                const timeout = setInterval(() => {
+                    if (this.resend_timeout)
+                        this.resend_timeout--
+                    else clearInterval(timeout)
+                }, 1000)
             }
         }
     }

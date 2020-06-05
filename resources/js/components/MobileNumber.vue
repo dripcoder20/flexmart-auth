@@ -2,7 +2,6 @@
     <div class="mobile-number-input">
         <span class="prefix">{{ prefix }}</span>
         <input
-            type="text"
             placeholder="Mobile number"
             name="mobile_number"
             :value="value"
@@ -25,7 +24,11 @@
         },
         methods: {
             emitValue(value) {
-                this.$emit('input-mobile', this.prefix + value.target.value)
+                const mobile = value.target.value
+                if (/^\d{1,10}$/.test(mobile))
+                    // only accept up to 10 digits
+                    this.$emit('input-mobile', this.prefix + mobile)
+                else value.target.value = mobile.slice(0, -1) // disable input
             }
         }
     }
