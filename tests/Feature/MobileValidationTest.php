@@ -51,4 +51,19 @@ class MobileValidationTest extends TestCase
                 'errors' => [ "mobile_number" => []]
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function it_should_return_error_if_mobile_prefix_was_invalid()
+    {
+        $request = [
+            'mobile_number' => '+639114563216'
+        ];
+        $this->postJson('api/validate', $request)
+             ->assertStatus(422)
+             ->assertJson([
+                 'errors' => [ "mobile_number" => []]
+             ]);
+    }
 }

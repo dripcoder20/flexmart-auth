@@ -13,10 +13,19 @@ class MobileValidationController extends Controller
 {
     private const CODE_EXPIRATION = 900; // 15 minutes
     private const KEY_PREFIX = 'verified-';
+    private const VALID_MOBILE_REGEX = [
+        '0[5-9]', '10', '12', '1[5-9]', '2[0-9]', '3[0-9]', '4[0-3]', '4[5-9]', '50',
+        '5[5-6]', '61', '6[5-7]', '7[3-5]', '7[7-9]', '9[5-9]'
+    ];
 
     public function store(Request $request)
     {
-        $request->validate(['mobile_number' => 'required|unique:users,mobile_number|size:13']);
+        $request->validate(['mobile_number' => [
+            'required',
+            'unique:users,mobile_number',
+            'regex:/^\+639('. implode('|', self::VALID_MOBILE_REGEX).')\d{7}/'
+            ]
+        ]);
 
         $token = $this->handleOtp(request('mobile_number'));
 
