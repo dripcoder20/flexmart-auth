@@ -15,7 +15,7 @@ class MobileValidationTest extends TestCase
         $request = [
             'mobile_number' => '+639154563216'
         ];
-        $this->postJson('api/validate', $request)
+        $this->postJson('api/mobile/validate', $request)
             ->assertStatus(201)
             ->assertSee('token');
     }
@@ -28,8 +28,8 @@ class MobileValidationTest extends TestCase
         $request = [
             'mobile_number' => '+639154563216'
         ];
-        $result = $this->post('api/validate', $request)
-             ->assertRedirect();
+        $result = $this->post('api/mobile/validate', $request)
+            ->assertRedirect();
         $location = $result->headers->get('location');
         $this->assertStringContainsString('/verify', $location);
     }
@@ -45,10 +45,10 @@ class MobileValidationTest extends TestCase
         $request = [
             'mobile_number' => '+639154563216'
         ];
-        $this->postJson('api/validate', $request)
+        $this->postJson('api/mobile/validate', $request)
             ->assertStatus(422)
             ->assertJson([
-                'errors' => [ "mobile_number" => []]
+                'errors' => ["mobile_number" => []]
             ]);
     }
 
@@ -60,10 +60,18 @@ class MobileValidationTest extends TestCase
         $request = [
             'mobile_number' => '+639114563216'
         ];
-        $this->postJson('api/validate', $request)
-             ->assertStatus(422)
-             ->assertJson([
-                 'errors' => [ "mobile_number" => []]
-             ]);
+        $this->postJson('api/mobile/validate', $request)
+            ->assertStatus(422)
+            ->assertJson([
+                'errors' => ["mobile_number" => []]
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_return_validate_mobile_view()
+    {
+        $this->get('/mobile/validate')->assertViewIs('validate-mobile');
     }
 }

@@ -26,7 +26,7 @@ class VerificationTest extends TestCase
             'token'    => Crypt::encrypt('verified-' . $user->mobile_number)
         ];
 
-        $result = $this->post('api/verify', $request)
+        $result = $this->post('api/mobile/verify', $request)
             ->assertStatus(Response::HTTP_ACCEPTED);
 
         $this->assertNotEmpty($result->json('confirmation_token'));
@@ -42,7 +42,7 @@ class VerificationTest extends TestCase
             'token'    => Crypt::encrypt('token')
         ];
 
-        $this->postJson('api/verify', $request)
+        $this->postJson('api/mobile/verify', $request)
             ->assertStatus(422)
             ->assertJson(['errors' => [ 'code'  => []]]);
     }
@@ -71,6 +71,6 @@ class VerificationTest extends TestCase
     public function it_should_see_mobile_number_in_verification()
     {
         $token = Crypt::encrypt('verified-+639154563216');
-        $this->get("verify?token=$token")->assertSee('+639154563216');
+        $this->get("mobile/verify?token=$token")->assertSee('+639154563216');
     }
 }

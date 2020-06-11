@@ -20,11 +20,13 @@ class MobileValidationController extends Controller
 
     public function store(Request $request)
     {
+        $validation = session('mobile:validation', 'unique:users,mobile_number');
+
         $request->validate(['mobile_number' => [
             'required',
-            'unique:users,mobile_number',
-            'regex:/^\+639('. implode('|', self::VALID_MOBILE_REGEX).')\d{7}/'
-            ]
+            $validation,
+            'regex:/^\+639(' . implode('|', self::VALID_MOBILE_REGEX) . ')\d{7}/'
+        ]
         ]);
 
         $token = $this->handleOtp(request('mobile_number'));
@@ -32,7 +34,7 @@ class MobileValidationController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Mobile was validated',
-                'token'   => $token,
+                'token' => $token,
             ], Response::HTTP_CREATED);
         }
 

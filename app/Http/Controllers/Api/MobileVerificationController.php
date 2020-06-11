@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 
-class VerificationController extends Controller
+class MobileVerificationController extends Controller
 {
     private const EXPIRATION = 1800; // 30 minutes
 
@@ -20,7 +20,7 @@ class VerificationController extends Controller
 
         request()->validate([
             'token' => 'required',
-            'code'  => [
+            'code' => [
                 'required',
                 function ($attribute, $value, $fail) use ($otp) {
                     if (! $otp->isValid($value)) {
@@ -36,6 +36,7 @@ class VerificationController extends Controller
 
         return response()->json([
             'message' => 'Verification was successful.',
+            'redirect_after' => session('redirect_after', config('app.url') . 'register') . '?token=' . $token,
             'confirmation_token' => $token,
         ], Response::HTTP_ACCEPTED);
     }
