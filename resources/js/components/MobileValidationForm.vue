@@ -51,8 +51,8 @@
                 this.errorMessage = ''
                 await this.$axios.get('/sanctum/csrf-cookie')
 
-                this.form.post('/api/validate').then((response) => {
-                    window.location.href = '/verify?token=' + response.token
+                this.form.post('/api/mobile/validate').then((response) => {
+                    window.location.href = '/mobile/verify?token=' + response.token
                 }).catch((error)=> {
                     this.errorMessage = error.message
                 })

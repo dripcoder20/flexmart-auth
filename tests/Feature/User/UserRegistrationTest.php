@@ -19,9 +19,9 @@ class UserRegistrationTest extends TestCase
         Cache::put($token, '09090909090', 5);
         $request = [
             'first_name' => 'John',
-            'last_name'  => 'Doe',
+            'last_name' => 'Doe',
             'confirmation_token' => $token,
-            'password'   => 'johndoe123'
+            'password' => 'johndoe123'
         ];
 
         $this->postJson('api/register', $request)->assertStatus(201);
@@ -41,8 +41,8 @@ class UserRegistrationTest extends TestCase
     {
         $request = [
             'first_name' => 'John',
-            'last_name'  => 'Doe',
-            'password'   => 'johndoe123',
+            'last_name' => 'Doe',
+            'password' => 'johndoe123',
             'confirmation_token' => 'token'
         ];
 
@@ -53,5 +53,16 @@ class UserRegistrationTest extends TestCase
                     "confirmation_token" => []
                 ]
             ]);
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_should_set_mobile_number_and_redirect_session()
+    {
+        $this->get('signup')->assertRedirect('/mobile/validate');
+        $this->assertEquals('unique:users,mobile_number', session('mobile:validation'));
+        $this->assertEquals(config('app.url') . '/register', session('redirect_after'));
     }
 }
