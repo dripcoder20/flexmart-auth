@@ -35,7 +35,7 @@ class PasswordResetSuccessNotification extends Mailable
             ->subject(config('app.name') . ' Password Reset Success')
             ->markdown('emails.user.password-reset-success-notification')
             ->with([
-                'userFullName' => $this->user->fullName
+                'name' => $this->user->name
             ]);
     }
 }

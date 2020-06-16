@@ -19,20 +19,20 @@ class PasswordResetController extends Controller
         );
 
         $mobileNumber = Cache::get($request->token);
-        $user = User::firstWhere('mobile_number', $mobileNumber);
+        $user = User::where('mobile_number', $mobileNumber)->first();
 
         $user->update([
             'password' => Hash::make($request->password)
         ]);
 
-        ($user->email) ? event(new UserResetPasswordHasSucceeded($user)) : '';
-
-        if ($request->wantsJson()) {
-            return response()->json([
-                'message' => 'Password reset successful'
-            ], Response::HTTP_NO_CONTENT);
+        if ($user->email) {
+            event(new UserResetPasswordHasSucceeded($user));
         }
 
-        return redirect('/login');
+        session()->flash('success', 'Password reset successful');
+
+        return response()->json([
+            'message' => 'Password reset successful'
+        ], Response::HTTP_NO_CONTENT);
     }
 }

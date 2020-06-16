@@ -46,10 +46,6 @@ Route::group(['middleware' => 'guest'], function () {
         return view('create-account');
     });
 
-    Route::get('forgot', 'PasswordResetController@put');
+    Route::get('forgot', 'PasswordResetController@index');
     Route::get('reset-password', 'PasswordResetController@show');
-});
-
-Route::get('session-debug', function () {
-    return dd(session()->all());
 });

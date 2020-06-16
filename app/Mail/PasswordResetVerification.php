@@ -38,7 +38,7 @@ class PasswordResetVerification extends Mailable
             ->subject(config('app.name') . ' Password Reset OTP')
             ->markdown('emails.user.mobile-verification')
             ->with([
-                'userFullName' => $this->user->fullName,
+                'name' => $this->user->name,
                 'otp' => $this->otp
             ]);
     }

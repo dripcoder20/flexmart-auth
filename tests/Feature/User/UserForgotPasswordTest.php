@@ -196,20 +196,6 @@ class UserForgotPasswordTest extends TestCase
     }
 
     /** @test */
-    public function it_will_redirect_to_login_after_password_reset_success()
-    {
-        $verifiedUser = $this->verified_user();
-        $token = $verifiedUser->getOriginalContent()['confirmation_token'];
-
-        $this->post('api/reset-password', [
-            'token' => $token,
-            'password' => 'newPassword123.',
-            'password_confirmation' => 'newPassword123.'
-        ])
-            ->assertRedirect('login');
-    }
-
-    /** @test */
     public function it_will_notify_reset_success_via_email()
     {
         Event::fake();
@@ -223,7 +209,7 @@ class UserForgotPasswordTest extends TestCase
         ]);
 
         Event::assertDispatched(UserResetPasswordHasSucceeded::class, function () use ($response) {
-            return $response->getStatusCode() === Response::HTTP_FOUND;
+            return $response->getStatusCode() === Response::HTTP_NO_CONTENT;
         });
     }
 

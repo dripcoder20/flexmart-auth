@@ -1,7 +1,7 @@
 @component('mail::message')
     # Congratulations
 
-    Hi {{ $userFullName }},
+    Hi {{ $name }},
     You have successfully set your new password!
 
     Thanks,

@@ -9,7 +9,7 @@ class PasswordResetController extends Controller
         return view('reset-password');
     }
 
-    public function put()
+    public function index()
     {
         session()->put('forgot', true);
         session()->put('mobile:validation', 'exists:users,mobile_number');

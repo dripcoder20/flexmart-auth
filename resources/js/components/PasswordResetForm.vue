@@ -22,9 +22,7 @@
                     name="password"
                     class="form-control"
                 />
-                <span class="message">{{
-                    form.errors.get('password_confirmation')
-                }}</span>
+                <span class="message">{{ form.errors.get('password') }}</span>
             </div>
             <div class="form-group">
                 <input
@@ -34,9 +32,6 @@
                     name="password_confirmation"
                     class="form-control"
                 />
-                <span class="message">{{
-                    form.errors.get('password_confirmation')
-                }}</span>
             </div>
 
             <div class="tw-flex tw-w-full tw-items-center tw-justify-center">

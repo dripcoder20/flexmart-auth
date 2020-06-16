@@ -56,7 +56,7 @@ class MobileVerificationController extends Controller
         });
 
         if (session()->has('forgot')) {
-            $user = User::firstWhere('mobile_number', $mobile);
+            $user = User::where('mobile_number', $mobile)->first();
             ($user->email) ? $otp->sendEmail($user) : '';
         }
 
