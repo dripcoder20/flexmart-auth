@@ -26,7 +26,7 @@ class SendPasswordResetSuccessNotification
      */
     public function handle(UserResetPasswordHasSucceeded $event)
     {
-        return Mail::to($event->email)
-            ->send(new PasswordResetSuccessNotification());
+        return Mail::to($event->user->email)
+            ->send(new PasswordResetSuccessNotification($event->user));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -10,15 +11,15 @@ class UserResetPasswordHasSucceeded
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $email;
+    public $user;
 
     /**
      * Create a new event instance.
      *
-     * @param $email
+     * @param $user
      */
-    public function __construct($email)
+    public function __construct(User $user)
     {
-        $this->email = $email;
+        $this->user = $user;
     }
 }

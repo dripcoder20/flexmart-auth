@@ -25,7 +25,7 @@ class PasswordResetController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        ($user->email) ? event(new UserResetPasswordHasSucceeded($user->email)) : '';
+        ($user->email) ? event(new UserResetPasswordHasSucceeded($user)) : '';
 
         if ($request->wantsJson()) {
             return response()->json([

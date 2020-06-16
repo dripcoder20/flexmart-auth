@@ -26,7 +26,7 @@ class SendMobileValidation
      */
     public function handle(UserHasRequestedVerification $event)
     {
-        return Mail::to($event->email)
-            ->send(new PasswordResetVerification($event->code));
+        return Mail::to($event->user->email)
+            ->send(new PasswordResetVerification($event->user, $event->code));
     }
 }

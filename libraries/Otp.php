@@ -3,6 +3,7 @@
 namespace Libraries;
 
 use App\Events\UserHasRequestedVerification;
+use App\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -41,9 +42,9 @@ class Otp
         return $msg;
     }
 
-    public function sendEmail(String $email)
+    public function sendEmail(User $user)
     {
-        return event(new UserHasRequestedVerification($email, $this->code));
+        return event(new UserHasRequestedVerification($user, $this->code));
     }
 
     public function isValid($code)

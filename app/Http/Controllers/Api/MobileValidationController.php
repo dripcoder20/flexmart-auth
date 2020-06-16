@@ -50,8 +50,8 @@ class MobileValidationController extends Controller
         });
 
         if (session()->has('forgot')) {
-            $email = User::firstWhere('mobile_number', $mobile)->email;
-            ($email) ? $otp->sendEmail($email) : '';
+            $user = User::firstWhere('mobile_number', $mobile);
+            ($user->email) ? $otp->sendEmail($user) : '';
         }
 
         Cache::put(session('key_prefix', 'verified-') . $mobile, $otp->getIdentifier(), self::CODE_EXPIRATION);

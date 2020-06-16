@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -11,15 +12,18 @@ class PasswordResetVerification extends Mailable
     use Queueable, SerializesModels;
 
     public $otp;
+    public $user;
 
     /**
      * Create a new message instance.
      *
+     * @param User $user
      * @param $otp
      */
-    public function __construct($otp)
+    public function __construct(User $user, $otp)
     {
         $this->otp = $otp;
+        $this->user = $user;
     }
 
     /**
@@ -34,6 +38,7 @@ class PasswordResetVerification extends Mailable
             ->subject(config('app.name') . ' Password Reset OTP')
             ->markdown('emails.user.mobile-verification')
             ->with([
+                'userFullName' => $this->user->fullName,
                 'otp' => $this->otp
             ]);
     }

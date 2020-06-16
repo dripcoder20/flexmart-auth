@@ -44,4 +44,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(LoginLog::class);
     }
+
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . " " . ucfirst($this->last_name);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -10,18 +11,18 @@ class UserHasRequestedVerification
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $email;
+    public $user;
     public $code;
 
     /**
      * Create a new event instance.
      *
-     * @param $email
+     * @param $user
      * @param $code
      */
-    public function __construct($email, $code)
+    public function __construct(User $user, $code)
     {
-        $this->email = $email;
+        $this->user = $user;
         $this->code = $code;
     }
 }
