@@ -55,10 +55,51 @@ class UserProfileTest extends TestCase
     /**
      * @test
      */
-    public function it_should_get_created_user_on_update_account()
+    public function it_should_go_on_update_profile()
     {
-        $this->get('update-profile')
-             ->assertSee($this->user->first_name)
-             ->assertSee($this->user->mobile_number);
+        $this->actingAs($this->user);
+        $this->get('/update-profile')->assertViewIs('update-profile');
+    }
+
+    /**
+     * @test
+     */
+    public function should_update_profile_of_authenticated_user()
+    {
+        $request = [
+            'address' => "102 molave",
+            'barangay' => "duyan duyan",
+            'city'  => 'QUEZON CITY',
+            'province' => 'METRO MANILA'
+        ];
+        $this->actingAs($this->user)
+            ->put('api/account', $request)
+            ->assertStatus(202);
+
+        $user = User::first();
+
+        $this->assertEquals('102 molave duyan duyan', $user->address);
+        $this->assertEquals('Quezon City', $user->city);
+        $this->assertEquals('Metro Manila', $user->province);
+    }
+
+    /**
+     * @test
+     */
+    public function should_response_error_if_invalid_request()
+    {
+        $request = [
+            'barangay' => "duyan duyan",
+            'city'  => 'QUEZON CITY',
+            'province' => 'METRO MANILA'
+        ];
+        $this->actingAs($this->user)
+             ->putJson('api/account', $request)
+             ->assertStatus(422)
+             ->assertJson([
+                 'errors' => [
+                     "address" => []
+                ]
+             ]);
     }
 }

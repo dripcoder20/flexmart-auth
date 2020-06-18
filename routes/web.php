@@ -18,6 +18,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource("", "ProfileController")->except('create');
     Route::delete("logout", 'AuthController@destroy');
     Route::get("logout", 'AuthController@destroy');
+    Route::get('update-profile', 'ProfileController@update');
 });
 
 
@@ -26,7 +27,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('login', 'AuthController@store');
     Route::get('signup', 'SignupController@index');
     Route::get('mobile/verify', 'MobileVerificationController@index');
-    Route::get('update-profile', 'ProfileController@update');
 });
 
 // All anonymous routes will go here

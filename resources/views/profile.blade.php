@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-<Profile></Profile>
+<profile></profile>
 @endsection

@@ -16,6 +16,14 @@ Vue.component(
     require('./components/VerificationForm').default
 )
 Vue.component(
+    'update-form',
+    require('./components/UpdateForm').default
+)
+Vue.component(
+    'profile',
+    require('./components/Profile').default
+)
+Vue.component(
     'password-reset-form',
     require('./components/PasswordResetForm').default
 )
