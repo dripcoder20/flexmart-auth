@@ -19,3 +19,4 @@ coverage.xml
 tests/coverage
 otp.txt
 .php_cs.cache
+public/mix-manifest.json

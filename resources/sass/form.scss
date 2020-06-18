@@ -23,3 +23,11 @@ input.form-control {
         outline: none;
     }
 }
+select.form-control {
+    border-radius: 5px;
+    border: #efefef solid 1px;
+    width: 278px;
+    height: 45px;
+    box-shadow: 1px 1px 1px 0 #00000021;
+    @apply tw-mb-1 tw-px-6;
+}

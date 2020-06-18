@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-
 class ProfileController extends Controller
 {
     public function index()
@@ -13,6 +11,6 @@ class ProfileController extends Controller
 
     public function update()
     {
-        return User::latest()->first();
+        return view('update-profile');
     }
 }

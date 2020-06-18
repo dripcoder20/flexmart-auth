@@ -19,7 +19,9 @@ class RegistrationController extends Controller
         $userCredentials['mobile_number'] =
             Cache::get(request('confirmation_token'));
 
-        User::create($userCredentials);
+        $user = User::create($userCredentials);
+
+        auth()->login($user);
 
         return response()->json([
             'message' => 'User was successfully created',
