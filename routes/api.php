@@ -21,6 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('login', 'Api\AuthController@store');
+Route::get('/', function () {
+    return response()->json(["123"]);
+});
 Route::post('mobile/validate', 'Api\MobileValidationController@store');
 Route::post('mobile/verify', 'Api\MobileVerificationController@store');
 Route::post('register', 'Api\RegistrationController@store');

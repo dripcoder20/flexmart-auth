@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  app:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: ${APP_NAME}_web
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/:cached
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - beanstalkd
+      - redis
+    networks:
+      - app
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${APP_NAME}_php
+    volumes:
+      - .:/var/www:cached
+      - ~/.ssh:/root/.ssh:cached
+    ports:
+      - "9000:9000"
+    networks:
+      - app
+  beanstalkd:
+    image: schickling/beanstalkd:latest
+    ports:
+      - "11300:11300"
+    restart: always
+    container_name: ${APP_NAME}_beanstalkd
+    networks:
+      - app
+  redis:
+    image: redis:latest
+    container_name: ${APP_NAME}_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app
